@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="WebKiosk/Assets.xcassets/AppIcon.appiconset/AppIcon.png" alt="WebKiosk app icon" width="128">
+  <img src="docs/AppIcon-rounded.png" alt="WebKiosk app icon" width="128">
 </p>
 
 # WebKiosk
