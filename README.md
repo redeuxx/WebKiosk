@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="WebKiosk/Assets.xcassets/AppIcon.appiconset/AppIcon.png" alt="WebKiosk app icon" width="128">
+</p>
+
 # WebKiosk
 
 A minimal iOS/iPadOS kiosk browser: it displays a single website in full screen and keeps visitors from navigating away from it. Built with SwiftUI and WKWebView — no dependencies.
