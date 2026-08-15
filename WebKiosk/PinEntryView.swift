@@ -1,6 +1,6 @@
 //
 //  PinEntryView.swift
-//  BrowserHawk
+//  WebKiosk
 //
 //  PIN prompt shown before the configuration screen is revealed.
 //
@@ -38,7 +38,7 @@ struct PinEntryView: View {
                     .padding(.vertical, 8)
                     .background(.quaternary, in: RoundedRectangle(cornerRadius: 10))
                     .focused($pinFieldFocused)
-                    .onChange(of: enteredPIN) {
+                    .onChange(of: enteredPIN) { _ in
                         showError = false
                         // Unlock automatically once the full PIN is typed.
                         if enteredPIN == correctPIN {

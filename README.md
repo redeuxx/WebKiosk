@@ -48,3 +48,7 @@ For a true kiosk deployment, pair the app with iOS **Guided Access** (Settings â
 
 - The web view identifies itself as Mobile Safari so sites don't show "outdated browser" warnings for the bare WKWebView user agent.
 - The kiosk PIN is a convenience lock stored in `UserDefaults`, not a security boundary â€” anyone with physical access to an unsupervised device could bypass it. Use Guided Access or MDM for real lockdown.
+
+## License
+
+WebKiosk is released under the [MIT License](LICENSE).

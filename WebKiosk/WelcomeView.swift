@@ -1,6 +1,6 @@
 //
 //  WelcomeView.swift
-//  BrowserHawk
+//  WebKiosk
 //
 //  One-time first-launch screen: points the admin at the configuration
 //  screen and explains how to reach it later.
@@ -29,6 +29,7 @@ struct WelcomeView: View {
                 .font(.body)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
 
             VStack(alignment: .leading, spacing: 20) {
                 Label {
@@ -47,6 +48,7 @@ struct WelcomeView: View {
                     Image(systemName: "lock")
                 }
             }
+            .fixedSize(horizontal: false, vertical: true)
             .frame(maxWidth: 460, alignment: .leading)
 
             Spacer()

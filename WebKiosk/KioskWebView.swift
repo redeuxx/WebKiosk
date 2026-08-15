@@ -1,6 +1,6 @@
 //
 //  KioskWebView.swift
-//  BrowserHawk
+//  WebKiosk
 //
 //  Bridges the WKWebView into SwiftUI and wires up the touch recognizers that
 //  reset the idle timer and reveal the hidden configuration screen.
