@@ -1,6 +1,6 @@
 //
 //  QRScannerView.swift
-//  KioskLock
+//  FocusKiosk
 //
 //  Camera-based QR scanner used by the configuration screen so long URLs
 //  don't have to be typed by hand.

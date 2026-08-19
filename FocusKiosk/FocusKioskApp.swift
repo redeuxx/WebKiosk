@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct KioskLockApp: App {
+struct FocusKioskApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()

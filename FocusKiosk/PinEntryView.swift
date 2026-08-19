@@ -1,6 +1,6 @@
 //
 //  PinEntryView.swift
-//  KioskLock
+//  FocusKiosk
 //
 //  PIN prompt shown before the configuration screen is revealed.
 //

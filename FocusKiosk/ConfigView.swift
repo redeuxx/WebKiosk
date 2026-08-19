@@ -1,6 +1,6 @@
 //
 //  ConfigView.swift
-//  KioskLock
+//  FocusKiosk
 //
 //  The hidden settings screen: edit the kiosk URL and the idle-refresh cycle.
 //

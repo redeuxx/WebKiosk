@@ -5,7 +5,7 @@
 //  Reads MDM-managed configuration pushed by JAMF (or any AppConfig-compatible MDM).
 //  JAMF delivers values via the standard "com.apple.configuration.managed" UserDefaults key.
 //
-//  AppConfig keys recognised by KioskLock:
+//  AppConfig keys recognised by FocusKiosk:
 //    HomepageURL  (String) - the URL the kiosk should display
 //
 

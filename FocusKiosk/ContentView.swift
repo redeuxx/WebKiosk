@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  KioskLock
+//  FocusKiosk
 //
 //  Created by Vernon Wenberg on 8/15/26.
 //
