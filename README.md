@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="docs/AppIcon-rounded.png" alt="WebKiosk app icon" width="128">
+  <img src="docs/AppIcon-rounded.png" alt="KioskLock app icon" width="128">
 </p>
 
-# WebKiosk
+# KioskLock
 
 A minimal iOS/iPadOS kiosk browser: it displays a single website in full screen and keeps visitors from navigating away from it. Built with SwiftUI and WKWebView - no dependencies.
 
@@ -22,7 +22,7 @@ Typical uses: time clocks, dashboards, check-in stands, digital signage, front-d
 
 ## Getting started
 
-1. Open `WebKiosk.xcodeproj` in Xcode and run it on an iPhone or iPad (iOS 16.6+).
+1. Open `KioskLock.xcodeproj` in Xcode and run it on an iPhone or iPad (iOS 16.6+).
 2. On first launch, a welcome screen explains the basics and offers to open Configuration.
 3. Set your URL (bare hostnames get `https://` automatically), pick an idle-refresh interval, and change the PIN.
 4. Later, reopen Configuration anytime with the two-finger long press + PIN.
@@ -35,7 +35,7 @@ For a true kiosk deployment, pair the app with iOS **Guided Access** (Settings â
 
 | File | Purpose |
 | --- | --- |
-| `WebKioskApp.swift` | App entry point. |
+| `KioskLockApp.swift` | App entry point. |
 | `ContentView.swift` | Root view; owns persisted settings and presents the welcome / PIN / config sheets. |
 | `KioskController.swift` | Owns the `WKWebView`, enforces the domain lock, drives the idle-refresh timer, auto-grants camera access. |
 | `KioskWebView.swift` | SwiftUI bridge for the web view plus the touch recognizers (idle-timer reset, two-finger reveal gesture). |
@@ -76,4 +76,4 @@ When a managed URL is active, the URL field in the Configuration screen is shown
 
 ## License
 
-WebKiosk is released under the [MIT License](LICENSE).
+KioskLock is released under the [MIT License](LICENSE).

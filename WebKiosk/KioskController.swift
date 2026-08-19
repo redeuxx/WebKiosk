@@ -1,6 +1,6 @@
 //
 //  KioskController.swift
-//  WebKiosk
+//  KioskLock
 //
 //  Owns the web view, drives the idle-refresh timer, and locks navigation
 //  to the configured page so the kiosk can't wander off.

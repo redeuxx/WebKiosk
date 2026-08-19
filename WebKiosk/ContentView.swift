@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  WebKiosk
+//  KioskLock
 //
 //  Created by Vernon Wenberg on 8/15/26.
 //

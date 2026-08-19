@@ -1,6 +1,6 @@
 //
 //  PinEntryView.swift
-//  WebKiosk
+//  KioskLock
 //
 //  PIN prompt shown before the configuration screen is revealed.
 //

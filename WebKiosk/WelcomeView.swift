@@ -1,6 +1,6 @@
 //
 //  WelcomeView.swift
-//  WebKiosk
+//  KioskLock
 //
 //  One-time first-launch screen: points the admin at the configuration
 //  screen and explains how to reach it later.
