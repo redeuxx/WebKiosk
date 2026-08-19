@@ -4,20 +4,20 @@
 
 # WebKiosk
 
-A minimal iOS/iPadOS kiosk browser: it displays a single website in full screen and keeps visitors from navigating away from it. Built with SwiftUI and WKWebView — no dependencies.
+A minimal iOS/iPadOS kiosk browser: it displays a single website in full screen and keeps visitors from navigating away from it. Built with SwiftUI and WKWebView - no dependencies.
 
 Typical uses: time clocks, dashboards, check-in stands, digital signage, front-desk displays.
 
 ## Features
 
-- **Full-screen web view** — status bar and system overlays hidden, screen never sleeps.
-- **Locked to one site** — main-frame navigation outside the configured domain (and its subdomains) is blocked, so logins and in-site links keep working but visitors can't wander off.
-- **Idle auto-refresh** — after a configurable period with no touches (10 s – 1 h, default 2 min), the page reloads back to the configured URL.
-- **Hidden configuration screen** — press and hold with **two fingers for 2 seconds**, then enter the PIN.
-- **PIN protection** — default PIN is `0987`; change it in Configuration (4+ digits).
-- **QR code setup** — scan a QR code instead of typing a long URL by hand.
-- **Self-healing** — load failures show a retry screen instead of a blank page, and the web view recovers automatically if iOS kills its content process.
-- **Camera passthrough** — camera permission requests from the configured site are granted automatically, so unattended kiosks never show a permission dialog a visitor could dismiss. Microphone requests are always denied.
+- **Full-screen web view** - status bar and system overlays hidden, screen never sleeps.
+- **Locked to one site** - main-frame navigation outside the configured domain (and its subdomains) is blocked, so logins and in-site links keep working but visitors can't wander off.
+- **Idle auto-refresh** - after a configurable period with no touches (10 s – 1 h, default 2 min), the page reloads back to the configured URL.
+- **Hidden configuration screen** - press and hold with **two fingers for 2 seconds**, then enter the PIN.
+- **PIN protection** - default PIN is `0987`; change it in Configuration (4+ digits).
+- **QR code setup** - scan a QR code instead of typing a long URL by hand.
+- **Self-healing** - load failures show a retry screen instead of a blank page, and the web view recovers automatically if iOS kills its content process.
+- **Camera passthrough** - camera permission requests from the configured site are granted automatically, so unattended kiosks never show a permission dialog a visitor could dismiss. Microphone requests are always denied.
 
 ## Getting started
 
@@ -51,7 +51,7 @@ For a true kiosk deployment, pair the app with iOS **Guided Access** (Settings �
 ## Notes
 
 - The web view identifies itself as Mobile Safari so sites don't show "outdated browser" warnings for the bare WKWebView user agent.
-- The kiosk PIN is a convenience lock stored in `UserDefaults`, not a security boundary — anyone with physical access to an unsupervised device could bypass it. Use Guided Access or MDM for real lockdown.
+- The kiosk PIN is a convenience lock stored in `UserDefaults`, not a security boundary - anyone with physical access to an unsupervised device could bypass it. Use Guided Access or MDM for real lockdown.
 
 ## License
 

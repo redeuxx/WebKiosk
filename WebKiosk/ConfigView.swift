@@ -11,7 +11,8 @@ struct ConfigView: View {
     @Binding var urlString: String
     @Binding var refreshInterval: Double
     @Binding var pin: String
-
+    /// Non-nil when JAMF has pushed a HomepageURL via AppConfig; the field is shown as read-only.
+    let managedURL: String?
     /// Called with the committed values when the user saves.
     let onSave: () -> Void
 
@@ -36,16 +37,27 @@ struct ConfigView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("Web Page") {
-                    TextField("https://example.com", text: $draftURL)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled()
-                        .keyboardType(.URL)
-                        .textContentType(.URL)
-                    Button {
-                        showQRScanner = true
-                    } label: {
-                        Label("Scan QR Code", systemImage: "qrcode.viewfinder")
+                Section {
+                    if let managedURL {
+                        Label(managedURL, systemImage: "lock.fill")
+                            .foregroundStyle(.secondary)
+                    } else {
+                        TextField("https://example.com", text: $draftURL)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled()
+                            .keyboardType(.URL)
+                            .textContentType(.URL)
+                        Button {
+                            showQRScanner = true
+                        } label: {
+                            Label("Scan QR Code", systemImage: "qrcode.viewfinder")
+                        }
+                    }
+                } header: {
+                    Text("Web Page")
+                } footer: {
+                    if managedURL != nil {
+                        Text("URL is managed by your organization via JAMF.")
                     }
                 }
 
@@ -79,7 +91,9 @@ struct ConfigView: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
-                        urlString = draftURL
+                        if managedURL == nil {
+                            urlString = draftURL
+                        }
                         refreshInterval = draftInterval
                         if isChangingPIN && pinChangeIsValid {
                             pin = newPIN
@@ -87,7 +101,7 @@ struct ConfigView: View {
                         onSave()
                         dismiss()
                     }
-                    .disabled(draftURL.trimmingCharacters(in: .whitespaces).isEmpty
+                    .disabled((managedURL == nil && draftURL.trimmingCharacters(in: .whitespaces).isEmpty)
                               || (isChangingPIN && !pinChangeIsValid))
                 }
             }

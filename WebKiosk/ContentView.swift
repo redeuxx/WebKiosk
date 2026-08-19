@@ -21,7 +21,12 @@ struct ContentView: View {
     }
 
     @StateObject private var controller = KioskController()
+    @StateObject private var managedConfig = ManagedConfigManager()
     @State private var activeSheet: ActiveSheet?
+
+    private var effectiveURL: String {
+        managedConfig.homepageURL ?? kioskURL
+    }
 
     var body: some View {
         KioskWebView(controller: controller) {
@@ -59,7 +64,7 @@ struct ContentView: View {
             // Keep the screen awake for continuous kiosk display.
             UIApplication.shared.isIdleTimerDisabled = true
             controller.idleTimeout = refreshInterval
-            controller.load(urlString: kioskURL)
+            controller.load(urlString: effectiveURL)
             if !hasCompletedFirstLaunch {
                 // Present after a beat: a sheet triggered directly in onAppear
                 // at launch can silently fail to appear.
@@ -70,6 +75,9 @@ struct ContentView: View {
                     }
                 }
             }
+        }
+        .onChange(of: managedConfig.homepageURL) { newURL in
+            controller.load(urlString: newURL ?? kioskURL)
         }
         .sheet(item: $activeSheet) { sheet in
             switch sheet {
@@ -88,10 +96,10 @@ struct ContentView: View {
             case .config:
                 ConfigView(urlString: $kioskURL,
                            refreshInterval: $refreshInterval,
-                           pin: $configPIN) {
-                    // Apply the newly saved settings immediately.
+                           pin: $configPIN,
+                           managedURL: managedConfig.homepageURL) {
                     controller.idleTimeout = refreshInterval
-                    controller.load(urlString: kioskURL)
+                    controller.load(urlString: effectiveURL)
                 }
             }
         }

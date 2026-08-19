@@ -25,7 +25,7 @@ struct WelcomeView: View {
             Text("Welcome to WebKiosk")
                 .font(.largeTitle.bold())
 
-            Text("WebKiosk displays a single website in full screen — visitors can't navigate away from it.")
+            Text("WebKiosk displays a single website in full screen - visitors can't navigate away from it.")
                 .font(.body)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
@@ -43,7 +43,7 @@ struct WelcomeView: View {
                     Image(systemName: "hand.tap")
                 }
                 Label {
-                    Text("The default PIN is **0987** — change it in Configuration to keep visitors out.")
+                    Text("The default PIN is **0987** - change it in Configuration to keep visitors out.")
                 } icon: {
                     Image(systemName: "lock")
                 }
