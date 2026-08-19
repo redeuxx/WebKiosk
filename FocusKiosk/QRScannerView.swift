@@ -49,7 +49,7 @@ final class QRScannerViewController: UIViewController {
                 }
             }
         default:
-            showMessage("Camera access is denied. Allow it in Settings → WebKiosk.")
+            showMessage("Camera access is denied. Allow it in Settings → FocusKiosk.")
         }
     }
 

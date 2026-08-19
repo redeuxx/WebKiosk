@@ -22,10 +22,10 @@ struct WelcomeView: View {
                 .font(.system(size: 56))
                 .foregroundStyle(.tint)
 
-            Text("Welcome to WebKiosk")
+            Text("Welcome to FocusKiosk")
                 .font(.largeTitle.bold())
 
-            Text("WebKiosk displays a single website in full screen - visitors can't navigate away from it.")
+            Text("FocusKiosk displays a single website in full screen - visitors can't navigate away from it.")
                 .font(.body)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
