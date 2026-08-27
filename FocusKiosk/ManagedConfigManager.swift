@@ -20,12 +20,18 @@ final class ManagedConfigManager: ObservableObject {
     private enum Key {
         static let managed = "com.apple.configuration.managed"
         static let homepageURL = "HomepageURL"
+        static let refreshCycle = "RefreshCycle"
+        static let pin = "PIN"
     }
 
     // MARK: PUBLISHED STATE
 
     /// Non-nil when JAMF has pushed a HomepageURL via AppConfig.
     @Published private(set) var homepageURL: String?
+    /// Non-nil when JAMF has pushed a RefreshCycle (seconds) via AppConfig.
+    @Published private(set) var refreshCycle: Double?
+    /// Non-nil when JAMF has pushed a PIN via AppConfig. Users cannot change the PIN while this is set.
+    @Published private(set) var pin: String?
 
     // MARK: INIT
 
@@ -50,5 +56,11 @@ final class ManagedConfigManager: ObservableObject {
     func refresh() {
         let managed = UserDefaults.standard.dictionary(forKey: Key.managed)
         homepageURL = managed?[Key.homepageURL] as? String
+        if let raw = managed?[Key.refreshCycle] {
+            refreshCycle = (raw as? Double) ?? (raw as? Int).map(Double.init)
+        } else {
+            refreshCycle = nil
+        }
+        pin = managed?[Key.pin] as? String
     }
 }

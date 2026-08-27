@@ -13,6 +13,10 @@ struct ConfigView: View {
     @Binding var pin: String
     /// Non-nil when JAMF has pushed a HomepageURL via AppConfig; the field is shown as read-only.
     let managedURL: String?
+    /// Non-nil when JAMF has pushed a RefreshCycle via AppConfig; the stepper is shown as read-only.
+    let managedRefreshCycle: Double?
+    /// Non-nil when JAMF has pushed a PIN via AppConfig; the PIN section is grayed out.
+    let managedPIN: String?
     /// When true the Cancel button is hidden so the user must save a URL before proceeding.
     var isInitialSetup: Bool = false
     /// Called with the committed values when the user saves.
@@ -63,27 +67,42 @@ struct ConfigView: View {
                     }
                 }
 
-                Section("Refresh Cycle") {
+                Section {
                     Stepper(value: $draftInterval, in: 10...3600, step: 10) {
                         Text("Refresh when idle for \(Int(draftInterval)) seconds")
                     }
+                    .disabled(managedRefreshCycle != nil)
+                } header: {
+                    Text("Refresh Cycle")
+                } footer: {
+                    if managedRefreshCycle != nil {
+                        Text("Refresh cycle is managed by your organization via JAMF.")
+                            .foregroundStyle(.secondary)
+                    }
                 }
+                .foregroundStyle(managedRefreshCycle != nil ? .secondary : .primary)
 
                 Section {
                     SecureField("New PIN", text: $newPIN)
                         .keyboardType(.numberPad)
+                        .disabled(managedPIN != nil)
                     SecureField("Confirm New PIN", text: $confirmPIN)
                         .keyboardType(.numberPad)
+                        .disabled(managedPIN != nil)
                 } header: {
                     Text("Change PIN")
                 } footer: {
-                    if isChangingPIN && !pinChangeIsValid {
+                    if managedPIN != nil {
+                        Text("PIN is managed by your organization via JAMF.")
+                            .foregroundStyle(.secondary)
+                    } else if isChangingPIN && !pinChangeIsValid {
                         Text("PIN must be at least 4 digits and both fields must match.")
                             .foregroundStyle(.red)
                     } else {
                         Text("Leave blank to keep the current PIN.")
                     }
                 }
+                .foregroundStyle(managedPIN != nil ? .secondary : .primary)
             }
             .navigationTitle("Configuration")
             .navigationBarTitleDisplayMode(.inline)
@@ -98,8 +117,10 @@ struct ConfigView: View {
                         if managedURL == nil {
                             urlString = draftURL
                         }
-                        refreshInterval = draftInterval
-                        if isChangingPIN && pinChangeIsValid {
+                        if managedRefreshCycle == nil {
+                            refreshInterval = draftInterval
+                        }
+                        if managedPIN == nil && isChangingPIN && pinChangeIsValid {
                             pin = newPIN
                         }
                         onSave()
@@ -111,7 +132,7 @@ struct ConfigView: View {
             }
             .onAppear {
                 draftURL = urlString
-                draftInterval = refreshInterval
+                draftInterval = managedRefreshCycle ?? refreshInterval
             }
             .sheet(isPresented: $showQRScanner) {
                 NavigationStack {

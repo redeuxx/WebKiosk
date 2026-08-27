@@ -28,6 +28,14 @@ struct ContentView: View {
         managedConfig.homepageURL ?? kioskURL
     }
 
+    private var effectiveRefreshInterval: Double {
+        managedConfig.refreshCycle ?? refreshInterval
+    }
+
+    private var effectivePIN: String {
+        managedConfig.pin ?? configPIN
+    }
+
     private var hasConfiguredURL: Bool {
         !effectiveURL.isEmpty
     }
@@ -67,7 +75,7 @@ struct ContentView: View {
         .onAppear {
             // Keep the screen awake for continuous kiosk display.
             UIApplication.shared.isIdleTimerDisabled = true
-            controller.idleTimeout = refreshInterval
+            controller.idleTimeout = effectiveRefreshInterval
             if hasConfiguredURL {
                 controller.load(urlString: effectiveURL)
             }
@@ -86,6 +94,9 @@ struct ContentView: View {
         .onChange(of: managedConfig.homepageURL) { newURL in
             controller.load(urlString: newURL ?? kioskURL)
         }
+        .onChange(of: managedConfig.refreshCycle) { newCycle in
+            controller.idleTimeout = newCycle ?? refreshInterval
+        }
         .sheet(item: $activeSheet) { sheet in
             switch sheet {
             case .welcome:
@@ -94,7 +105,7 @@ struct ContentView: View {
                     activeSheet = .config
                 }
             case .pinEntry:
-                PinEntryView(correctPIN: configPIN) {
+                PinEntryView(correctPIN: effectivePIN) {
                     activeSheet = .config
                 }
             case .config:
@@ -102,8 +113,10 @@ struct ContentView: View {
                            refreshInterval: $refreshInterval,
                            pin: $configPIN,
                            managedURL: managedConfig.homepageURL,
+                           managedRefreshCycle: managedConfig.refreshCycle,
+                           managedPIN: managedConfig.pin,
                            isInitialSetup: !hasConfiguredURL) {
-                    controller.idleTimeout = refreshInterval
+                    controller.idleTimeout = effectiveRefreshInterval
                     controller.load(urlString: effectiveURL)
                 }
             }
