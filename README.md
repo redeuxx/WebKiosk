@@ -18,7 +18,7 @@ Typical uses: time clocks, dashboards, check-in stands, digital signage, front-d
 - **QR code setup** - scan a QR code instead of typing a long URL by hand.
 - **Self-healing** - load failures show a retry screen instead of a blank page, and the web view recovers automatically if iOS kills its content process.
 - **Camera passthrough** - camera permission requests from the configured site are granted automatically, so unattended kiosks never show a permission dialog a visitor could dismiss. Microphone requests are always denied.
-- **MDM/JAMF managed config** - the homepage URL can be pushed remotely via AppConfig (`HomepageURL` key), overriding the local setting and locking it in the UI.
+- **MDM/JAMF managed config** - homepage URL, refresh cycle, and PIN can all be pushed remotely via AppConfig, overriding local settings and locking them in the UI.
 
 ## Getting started
 
@@ -43,7 +43,7 @@ For a true kiosk deployment, pair the app with iOS **Guided Access** (Settings â
 | `PinEntryView.swift` | PIN prompt guarding the settings screen. |
 | `QRScannerView.swift` | AVFoundation-based QR scanner for entering URLs. |
 | `WelcomeView.swift` | One-time first-launch walkthrough. |
-| `ManagedConfigManager.swift` | Reads MDM-managed AppConfig from `UserDefaults` and publishes the managed `HomepageURL` if set. |
+| `ManagedConfigManager.swift` | Reads MDM-managed AppConfig from `UserDefaults` and publishes managed values for URL, refresh cycle, and PIN. |
 
 ## Requirements
 
@@ -52,11 +52,15 @@ For a true kiosk deployment, pair the app with iOS **Guided Access** (Settings â
 
 ## JAMF / MDM deployment
 
-The app supports [AppConfig](https://www.appconfig.org) for remote configuration. Set the following key in your MDM's app configuration payload:
+The app supports [AppConfig](https://www.appconfig.org) for remote configuration. Set any of the following keys in your MDM's app configuration payload:
 
 | Key | Type | Description |
 | --- | --- | --- |
-| `HomepageURL` | String | URL the kiosk displays. Overrides the local setting and locks it in the UI. |
+| `HomepageURL` | String | URL the kiosk displays. Overrides the local setting; field shown as read-only in the UI. |
+| `RefreshCycle` | Integer | Idle time in seconds before the page reloads (10â€“3600). Overrides the local setting; stepper grayed out in the UI. |
+| `PIN` | String | PIN required to open the Configuration screen. Overrides the local PIN; change fields grayed out in the UI. |
+
+All managed values take effect immediately when pushed - no app restart required. Removing a key from MDM reverts to the locally stored value.
 
 Example JAMF App Configuration XML:
 
@@ -64,10 +68,12 @@ Example JAMF App Configuration XML:
 <dict>
     <key>HomepageURL</key>
     <string>https://your-company.com/kiosk</string>
+    <key>RefreshCycle</key>
+    <integer>300</integer>
+    <key>PIN</key>
+    <string>1234</string>
 </dict>
 ```
-
-When a managed URL is active, the URL field in the Configuration screen is shown as read-only. Removing the key from MDM reverts to the locally stored URL.
 
 ## Notes
 
