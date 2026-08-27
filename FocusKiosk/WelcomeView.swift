@@ -11,8 +11,6 @@ import SwiftUI
 struct WelcomeView: View {
     /// Opens the configuration screen directly.
     let onOpenConfig: () -> Void
-    /// Dismisses without configuring.
-    let onSkip: () -> Void
 
     var body: some View {
         VStack(spacing: 28) {
@@ -33,7 +31,7 @@ struct WelcomeView: View {
 
             VStack(alignment: .leading, spacing: 20) {
                 Label {
-                    Text("The app is currently showing a **default page**. Set your own URL in Configuration.")
+                    Text("**A homepage URL is required** to start the kiosk. Set it in Configuration below.")
                 } icon: {
                     Image(systemName: "link")
                 }
@@ -61,10 +59,6 @@ struct WelcomeView: View {
             }
             .buttonStyle(.borderedProminent)
             .controlSize(.large)
-
-            Button("Not Now") {
-                onSkip()
-            }
         }
         .padding(32)
         .interactiveDismissDisabled()

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     // Persisted kiosk configuration.
-    @AppStorage("kioskURL") private var kioskURL = "https://retrak.tv"
+    @AppStorage("kioskURL") private var kioskURL = ""
     @AppStorage("refreshInterval") private var refreshInterval = 120.0
     @AppStorage("configPIN") private var configPIN = "0987"
     @AppStorage("hasCompletedFirstLaunch") private var hasCompletedFirstLaunch = false
@@ -26,6 +26,10 @@ struct ContentView: View {
 
     private var effectiveURL: String {
         managedConfig.homepageURL ?? kioskURL
+    }
+
+    private var hasConfiguredURL: Bool {
+        !effectiveURL.isEmpty
     }
 
     var body: some View {
@@ -64,13 +68,16 @@ struct ContentView: View {
             // Keep the screen awake for continuous kiosk display.
             UIApplication.shared.isIdleTimerDisabled = true
             controller.idleTimeout = refreshInterval
-            controller.load(urlString: effectiveURL)
-            if !hasCompletedFirstLaunch {
+            if hasConfiguredURL {
+                controller.load(urlString: effectiveURL)
+            }
+            // Show welcome whenever no URL has been configured, not only on first launch.
+            if !hasCompletedFirstLaunch || !hasConfiguredURL {
                 // Present after a beat: a sheet triggered directly in onAppear
                 // at launch can silently fail to appear.
                 Task {
                     try? await Task.sleep(nanoseconds: 600_000_000)
-                    if !hasCompletedFirstLaunch {
+                    if !hasCompletedFirstLaunch || !hasConfiguredURL {
                         activeSheet = .welcome
                     }
                 }
@@ -85,9 +92,6 @@ struct ContentView: View {
                 WelcomeView {
                     hasCompletedFirstLaunch = true
                     activeSheet = .config
-                } onSkip: {
-                    hasCompletedFirstLaunch = true
-                    activeSheet = nil
                 }
             case .pinEntry:
                 PinEntryView(correctPIN: configPIN) {
@@ -97,7 +101,8 @@ struct ContentView: View {
                 ConfigView(urlString: $kioskURL,
                            refreshInterval: $refreshInterval,
                            pin: $configPIN,
-                           managedURL: managedConfig.homepageURL) {
+                           managedURL: managedConfig.homepageURL,
+                           isInitialSetup: !hasConfiguredURL) {
                     controller.idleTimeout = refreshInterval
                     controller.load(urlString: effectiveURL)
                 }

@@ -13,6 +13,8 @@ struct ConfigView: View {
     @Binding var pin: String
     /// Non-nil when JAMF has pushed a HomepageURL via AppConfig; the field is shown as read-only.
     let managedURL: String?
+    /// When true the Cancel button is hidden so the user must save a URL before proceeding.
+    var isInitialSetup: Bool = false
     /// Called with the committed values when the user saves.
     let onSave: () -> Void
 
@@ -86,8 +88,10 @@ struct ConfigView: View {
             .navigationTitle("Configuration")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
+                if !isInitialSetup {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Cancel") { dismiss() }
+                    }
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
